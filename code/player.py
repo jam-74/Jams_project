@@ -23,16 +23,16 @@ class Player(pygame.sprite.Sprite):
 
     def import_assets(self):
         self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
-                           'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
-                           'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
-                           'right_axe': [], 'left_axe': [], 'up_axe': [], 'down_axe': [],
-                           'right_water': [], 'left_water': [], 'up_water': [], 'down_water': []}
-        
+                       'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
+                       'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
+                       'right_axe': [], 'left_axe': [], 'up_axe': [], 'down_axe': [],
+                       'right_water': [], 'left_water': [], 'up_water': [], 'down_water': []}
+
         for animation in self.animations.keys():
             full_path = 'graphics/character/' + animation
-            # sprite_size = (172, int(172 * (842 / 595)))
-            self.animations[animation] = import_folder(full_path)
-        # print(self.animations)
+            frames = import_folder(full_path)
+            self.animations[animation] = frames
+            print(f"{animation} frames: {len(frames)}")
 
     def animate(self,dt):
         self.frame_index += 4 * dt

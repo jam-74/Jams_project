@@ -1,10 +1,6 @@
-import pygame, sys
+import pygame
+from settings import *
 from level import Level
-from player import Player
-
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
-
 
 class Game:
     def __init__(self):
@@ -15,15 +11,19 @@ class Game:
         self.level = Level()
 
     def run(self):
-        while True:
+        running = True
+        while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+                    running = False
 
-            dt = self.clock.tick() / 1000
+            dt = self.clock.tick(60) / 1000.0
+
             self.level.run(dt)
-            pygame.display.update()
+
+            pygame.display.flip()
+
+        pygame.quit()
 
 if __name__ == '__main__':
     game = Game()

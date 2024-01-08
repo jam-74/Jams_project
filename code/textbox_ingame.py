@@ -2,6 +2,12 @@ import pygame, sys
 import time
 import subprocess
 import os
+from tkinter import *
+
+root = Tk()
+root.geometry('500x500')
+root.attributes('-alpha' ,0.5)
+mainloop()
 
 os.environ['SDL_VIDEO_WINDOW_POS'] = '150,450'  # Replace 'x' and 'y' with the desired window position
 
@@ -21,7 +27,7 @@ print("Player Name:", player_name)
 SCREEN_WIDTH = 1228
 SCREEN_HEIGHT = 400
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("CODEMON(｡•̀ᴗ-)✧")
+pygame.display.set_caption("(｡•̀ᴗ-)✧")
 
 # Load the image
 text_box_image = pygame.image.load("ts_assets/text_box.png").convert_alpha()

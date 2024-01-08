@@ -77,6 +77,7 @@ while run:
             cancel_clicked = True
             if cancel_clicked:
                 subprocess.Popen(["python", "ts_assets/level_select/lvl1_select.py"])
+                
                 pygame.quit()
                 sys.exit()
 
@@ -106,3 +107,4 @@ while run:
             run = False
 
     pygame.display.update()
+

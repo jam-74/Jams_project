@@ -14,7 +14,7 @@ MAX_INPUT_LENGTH = 10  # Maximum allowed input length
 
 # Create the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Name Input")
+pygame.display.set_caption("Close after input")
 
 # Create a font
 font = pygame.font.Font(None, FONT_SIZE)

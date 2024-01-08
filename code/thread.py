@@ -1,15 +1,18 @@
 import subprocess
 
-# Define a function to run the first program
 def run_program1():
-    subprocess.Popen(["python", "code/textbox_ingame.py"])  # Replace with the actual command to run program1
+    subprocess.Popen(["python", "code/textbox_ingame.py"]).wait()  # Wait for it to complete
+    
 
-# Define a function to run the second program
 def run_program2():
-    subprocess.Popen(["python", "code/main.py"])  # Replace with the actual command to run program2
+    subprocess.Popen(["python", "code/main.py"])
+    
 
-# Start the first program
-run_program1()
+def run_program3():
+    subprocess.Popen(["python", "code/textbox_guide_arrows.py"])
+  
 
-# Start the second program
-run_program2()
+run_program2()  # bottom layer
+run_program1()  
+run_program3()  
+

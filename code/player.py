@@ -2,39 +2,43 @@ import pygame
 from settings import *
 from support import *
 
-
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, group):
+    def __init__(self, pos, group, collision_rect):
         super().__init__(group)
+        self.collision_rect = collision_rect
 
-        self.import_assets()
+        # Load player animations and set initial state
+        self.load_animations()
         self.status = 'down'
         self.frame_index = 0
 
-        # general setup
+        # Initialize general setup
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(center=pos)
         self.z = LAYERS['main']
 
-        # movement attributes
+        # Movement attributes
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.speed = 200
 
-    def import_assets(self):
-        self.animations = {'up': [], 'down': [], 'left': [], 'right': [],
-                       'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
-                       'right_hoe': [], 'left_hoe': [], 'up_hoe': [], 'down_hoe': [],
-                       'right_axe': [], 'left_axe': [], 'up_axe': [], 'down_axe': [],
-                       'right_water': [], 'left_water': [], 'up_water': [], 'down_water': []}
+    def set_position(self, x, y):
+        self.pos = pygame.math.Vector2(x, y)
+        self.rect.centerx = x
+        self.rect.centery = y
 
-        for animation in self.animations.keys():
-            full_path = 'graphics/character/' + animation
-            frames = import_folder(full_path)
-            self.animations[animation] = frames
-            print(f"{animation} frames: {len(frames)}")
+    def load_animations(self):
+        # Load player animations from files
+        animation_names = ['up', 'down', 'left', 'right',
+                           'right_idle', 'left_idle', 'up_idle', 'down_idle',
+                           'right_hoe', 'left_hoe', 'up_hoe', 'down_hoe',
+                           'right_axe', 'left_axe', 'up_axe', 'down_axe',
+                           'right_water', 'left_water', 'up_water', 'down_water']
 
-    def animate(self,dt):
+        self.animations = {name: import_folder(f'graphics/character/{name}') for name in animation_names}
+
+    def animate(self, dt):
+        # Update animation frames
         self.frame_index += 4 * dt
         if self.frame_index >= len(self.animations[self.status]):
             self.frame_index = 0
@@ -42,6 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.animations[self.status][int(self.frame_index)]
 
     def input(self):
+        # Handle player input for movement
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
@@ -63,21 +68,17 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
 
     def move(self, dt):
+        # Update player movement
+        new_pos = self.pos + self.direction * self.speed * dt
 
-        # normalizing a vector
-        if self.direction.magnitude() > 0:
-            self.direction = self.direction.normalize()
-
-
-        # horizontal movement
-        self.pos.x += self.direction.x * self.speed * dt
-        self.rect.centerx = self.pos.x
-
-        # vertical movement
-        self.pos.y += self.direction.y * self.speed * dt
-        self.rect.centery = self.pos.y
+        # Check for collisions with the collision_rect
+        if self.collision_rect.collidepoint(new_pos.x, new_pos.y):
+            self.pos = new_pos
+            self.rect.centerx = self.pos.x
+            self.rect.centery = self.pos.y
 
     def update(self, dt):
+        # Update player state
         self.input()
         self.move(dt)
         self.animate(dt)
